@@ -17,6 +17,7 @@ router.post("/login", async (req, res) => {
         token,
         user: {
           email,
+          id,
           username: user.username,
           profilePIc: user.profilePic,
         },
