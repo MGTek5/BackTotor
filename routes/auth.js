@@ -33,13 +33,15 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
   const id = v4();
   const { username, password, email, profilePic } = req.body;
-  const user = await db.push(`/users/${id}`, {
+  const user = {
     id,
     username,
     password: bcrypt.hashSync(password, 12),
     email,
     profilePic,
-  });
+  };
+
+  await db.push(`/users/${id}`, user);
   await db.push(`/users/${email}`, id);
   res.json(user);
 });

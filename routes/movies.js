@@ -2,10 +2,23 @@ const router = require("express").Router();
 const { v4 } = require("uuid");
 const { db } = require("../db");
 
+const populate = (reviews, users) => {
+  return reviews.map(review => {
+    const { password, ...other} = users.find(u => u.id === review.userId)
+    return {
+      ...review,
+      user: other
+    }
+  })
+}
+
 router.get("/:id", async (req, res) => {
   try {
     const reviews = db.getData(`/movies/${req.params.id}`);
-    res.json(reviews);
+    const users = reviews.map(review =>
+      db.getData(`/users/${review.userId}`)
+    )
+    res.json(populate(reviews, users))
   } catch (error) {
     res.json([]);
   }
