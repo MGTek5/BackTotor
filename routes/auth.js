@@ -19,14 +19,14 @@ router.post("/login", async (req, res) => {
           email,
           id,
           username: user.username,
-          profilePIc: user.profilePic,
+          profilePic: user.profilePic,
         },
       });
     } else {
-      throw "Wong data";
+      throw "Wrong data";
     }
   } catch (error) {
-    res.status(500).json({ status: "ko", message: "login failed" });
+    res.status(401).json({ status: "ko", message: "login failed" });
   }
 });
 
